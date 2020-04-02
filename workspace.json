@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "projects": {
+    "flow-cms": {
+      "root": "apps/flow-cms",
+      "sourceRoot": "apps/flow-cms/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/flow-cms",
+            "index": "apps/flow-cms/src/index.html",
+            "main": "apps/flow-cms/src/main.ts",
+            "polyfills": "apps/flow-cms/src/polyfills.ts",
+            "tsConfig": "apps/flow-cms/tsconfig.app.json",
+            "assets": [
+              "apps/flow-cms/src/favicon.ico",
+              "apps/flow-cms/src/assets"
+            ],
+            "styles": ["apps/flow-cms/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/flow-cms/src/environments/environment.ts",
+                  "with": "apps/flow-cms/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "flow-cms:build",
+            "proxyConfig": "apps/flow-cms/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "flow-cms:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/flow-cms/.eslintrc",
+            "tsConfig": [
+              "apps/flow-cms/tsconfig.app.json",
+              "apps/flow-cms/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/flow-cms/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/flow-cms/jest.config.js",
+            "tsConfig": "apps/flow-cms/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/flow-cms/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "flow-cms-e2e": {
+      "root": "apps/flow-cms-e2e",
+      "sourceRoot": "apps/flow-cms-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/flow-cms-e2e/cypress.json",
+            "tsConfig": "apps/flow-cms-e2e/tsconfig.e2e.json",
+            "devServerTarget": "flow-cms:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "flow-cms:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/flow-cms-e2e/.eslintrc",
+            "tsConfig": ["apps/flow-cms-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/flow-cms-e2e/**"]
+          }
+        }
+      }
+    },
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "prefix": "api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/api/.eslintrc",
+            "tsConfig": [
+              "apps/api/tsconfig.app.json",
+              "apps/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "tsConfig": "apps/api/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/web"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/react": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/web": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nx-plugin": {
+      "plugin": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "flow-cms"
+}
