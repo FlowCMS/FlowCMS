@@ -28,6 +28,13 @@
     },
     "api": {
       "tags": []
+    },
+    "flow-cms-be": {
+      "tags": []
+    },
+    "flow-cms-be-e2e": {
+      "tags": [],
+      "implicitDependencies": ["flow-cms-be"]
     }
   }
 }
