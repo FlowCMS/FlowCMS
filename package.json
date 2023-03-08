@@ -30,7 +30,7 @@
   "dependencies": {
     "document-register-element": "1.13.1",
     "@nestjs/common": "^6.8.3",
-    "@nestjs/core": "^6.8.3",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^6.8.3",
     "reflect-metadata": "^0.1.13",
     "@angular/animations": "9.1.0",
